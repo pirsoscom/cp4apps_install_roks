@@ -96,14 +96,23 @@ echo "--------------------------------------------------------------------------
 
 
 
-        if [[ $INPUT_SC == "" ]];
+         if [[ $INPUT_SC == "" ]];
         then
-          echo "    ${ORANGE}No Storage Class provided, using${NC}    '$STORAGE_CLASS'"
+          echo "    ${ORANGE}No Storage Class provided, using${NC}    '$STORAGE_CLASS_BLOCK' and '$STORAGE_CLASS_FILE'"
         else
           echo "    ${GREEN}Storage Class OK:${NC}                   '$INPUT_SC'"
-          STORAGE_CLASS=$INPUT_SC
+          STORAGE_CLASS_BLOCK=$INPUT_SC
+
+          STORAGE_CLASS_FILE=$(echo $STORAGE_CLASS_BLOCK | ${SED} -e "s/block/file/")
+       
+
         fi
 
+        if [[ ($INPUT_CLUSTER_NAME == "") ]];
+        then
+          getClusterFQN
+          #CLUSTER_FQDN=$? 
+        fi
 
 
         if [[ ($INPUT_CLUSTER_NAME == "") ]];
@@ -113,10 +122,6 @@ echo "--------------------------------------------------------------------------
         fi
 
 
-        if [[ ($MASTER_HOST == "0.0.0.0") ]];
-        then
-        getHosts
-        fi
 echo "---------------------------------------------------------------------------------------------------------------------------"
 echo "---------------------------------------------------------------------------------------------------------------------------"
 echo "  "
@@ -202,11 +207,7 @@ echo "    ----------------------------------------------------------------------
 echo "    ${GREEN}CP4APPS User Name:${NC}      $CP4APPS_USER"
 echo "    ${GREEN}CP4APPS User Password:${NC}  ********"
 echo "    ---------------------------------------------------------------------------------------------------------------------------"
-echo "    ${GREEN}STORAGE CLASS:${NC}          $STORAGE_CLASS"
-echo "    ---------------------------------------------------------------------------------------------------------------------------"
-echo "    ${GREEN}MASTER COMPONENTS:${NC}      $MASTER_COMPONENTS"
-echo "    ${GREEN}PROXY COMPONENTS:${NC}       $PROXY_COMPONENTS"
-echo "    ${GREEN}MANAGEMENT COMPONENTS:${NC}  $MANAGEMENT_COMPONENTS"
+echo "    ${GREEN}STORAGE CLASS:${NC}          $STORAGE_CLASS_BLOCK"
 echo "    ---------------------------------------------------------------------------------------------------------------------------"
 echo "    ${GREEN}INSTALL PATH:${NC}           $INSTALL_PATH"
 echo "---------------------------------------------------------------------------------------------------------------------------"
@@ -333,7 +334,9 @@ echo "--------------------------------------------------------------------------
         # ---------------------------------------------------------------------------------------------------------------------------------------------------"
         # Adapt Config FIle
         # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-        $${SED} -i "s/storageClassName: \"\"/storageClassName: $STORAGE_CLASS/" data/transadv.yaml
+        ${SED} -i "s/storageClassName: \"\"/storageClassName: $STORAGE_CLASS_BLOCK/" data/transadv.yaml
+        ${SED} -i "s/accessMode: \"ReadWriteMany\"/accessMode: \"ReadWriteOnce\"/" data/transadv.yaml
+
 
 echo "---------------------------------------------------------------------------------------------------------------------------"
 echo "---------------------------------------------------------------------------------------------------------------------------"
@@ -380,13 +383,10 @@ echo "--------------------------------------------------------------------------
           export ENTITLED_REGISTRY_USER=$ENTITLED_REGISTRY_USER
           export ENTITLED_REGISTRY_KEY=$ENTITLED_REGISTRY_KEY
 
-          docker run -v ~/.kube:/root/.kube:z -u 0 -t -v $PWD/data:/installer/data:z -e LICENSE=accept -e $ENTITLED_REGISTRY -e $ENTITLED_REGISTRY_USER -e $ENTITLED_REGISTRY_KEY "$ENTITLED_REGISTRY/cp/icpa/icpa-installer:$CP4APPS_VERSION" check
+          docker run -v ~/.kube:/root/.kube:z -u 0 -t -v $PWD/data:/installer/data:z -e LICENSE=accept -e ENTITLED_REGISTRY -e ENTITLED_REGISTRY_USER -e ENTITLED_REGISTRY_KEY "$ENTITLED_REGISTRY/cp/icpa/icpa-installer:$CP4APPS_VERSION" check
 
-          docker run -v ~/.kube:/root/.kube:z -u 0 -t -v $PWD/data:/installer/data:z -e LICENSE=accept -e $ENTITLED_REGISTRY -e $ENTITLED_REGISTRY_USER -e $ENTITLED_REGISTRY_KEY "$ENTITLED_REGISTRY/cp/icpa/icpa-installer:$CP4APPS_VERSION" install
+          docker run -v ~/.kube:/root/.kube:z -u 0 -t -v $PWD/data:/installer/data:z -e LICENSE=accept -e ENTITLED_REGISTRY -e ENTITLED_REGISTRY_USER -e ENTITLED_REGISTRY_KEY "$ENTITLED_REGISTRY/cp/icpa/icpa-installer:$CP4APPS_VERSION" install
 
-
-          #docker run -v ~/.kube:/root/.kube:z -u 0 -t -v $PWD/data:/installer/data:z -e LICENSE=accept -e ENTITLED_REGISTRY -e ENTITLED_REGISTRY_USER -e ENTITLED_REGISTRY_KEY "$ENTITLED_REGISTRY/cp/icpa/icpa-installer:$CP4APPS_VERSION" cs-install
-#docker run -v ~/.kube:/root/.kube:z -u 0 -t -v /Users/nhirt/TEMP/mcm-install/2_install_cp4apps.sh/cp4appstest-a376efc1170b9b8ace6422196c51e491-0000.eu-de.containers.appdomain.cloud/data:/installer/data:z -e LICENSE=accept -e ENTITLED_REGISTRY -e ENTITLED_REGISTRY_USER -e ENTITLED_REGISTRY_KEY cp.icr.io/cp/icpa/icpa-installer:4.2.1 uninstall
         else
           echo "${RED}Installation Aborted${NC}"
         fi

@@ -1,0 +1,2661 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Transformation Advisor API",
+    "description": "Developer APIs",
+    "contact": {
+      "name": "Transformation Advisor",
+      "url": "https://transformationadvisor.github.io/",
+      "email": "paulbarr@ie.ibm.com"
+    },
+    "version": "2.0"
+  },
+  "servers": [
+    {
+      "url": "https://ta.openapi.multivalley-987394-2025abf5e73a457f12bb6f6fae6f9c13-0001.sjc03.containers.appdomain.cloud/lands_advisor"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    },
+    {
+      "apiKeyAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "business applications",
+      "description": "All the business applications methods"
+    },
+    {
+      "name": "data collector",
+      "description": "All the data collector methods"
+    },
+    {
+      "name": "collections",
+      "description": "All the collections methods"
+    },
+    {
+      "name": "recommendations",
+      "description": "Get the link to the recommendations export for this assessment unit"
+    },
+    {
+      "name": "workspaces",
+      "description": "All the workspaces methods"
+    },
+    {
+      "name": "assessment units",
+      "description": "All the assessment units methods"
+    },
+    {
+      "name": "collection archives",
+      "description": "All the collection archives methods"
+    },
+    {
+      "name": "repository",
+      "description": "All the repository methods"
+    },
+    {
+      "name": "hierarchy",
+      "description": "Convenience method to get the hierarchy of workspaces, collections and archive names"
+    },
+    {
+      "name": "v1",
+      "description": "Deprecated API that will not be supported going forward"
+    }
+  ],
+  "paths": {
+    "/advisor/v2/workspaces/{workspaceId}/business-apps": {
+      "get": {
+        "tags": [
+          "business applications"
+        ],
+        "summary": "Get the list of business applications",
+        "description": "Get the list of business applications",
+        "operationId": "getBusinessApps",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ingressLibertyServerUrl",
+            "in": "header",
+            "description": "URL for the server ingress path",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved business applications"
+          },
+          "400": {
+            "description": "Unable to get business applications"
+          },
+          "404": {
+            "description": "Business applications not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "business applications"
+        ],
+        "summary": "Replace a set of business applications",
+        "description": "Replace a set of business applications",
+        "operationId": "updateBusinessApps",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Business application records to be updated",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/BusinessApp"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Business applications successfully updated"
+          },
+          "400": {
+            "description": "Unable to update business applications"
+          },
+          "404": {
+            "description": "Business application not found"
+          },
+          "409": {
+            "description": "Business applications with this name already exists"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "business applications"
+        ],
+        "summary": "Create a business application",
+        "description": "Create a business application",
+        "operationId": "createBusinessApp",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Business application to be created",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BusinessApp"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "New business application successfully created"
+          },
+          "400": {
+            "description": "Unable to create this business application"
+          },
+          "409": {
+            "description": "Business application already exists"
+          }
+        }
+      }
+    },
+    "/advisor/v2/workspaces/{workspaceId}/collections/{collectionId}/dataCollector": {
+      "get": {
+        "tags": [
+          "data collector"
+        ],
+        "summary": "Get the download link for the data collector",
+        "description": "Get the download link for the data collector",
+        "operationId": "getDataCollector",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "collectionId",
+            "in": "path",
+            "description": "Id of the collection",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "platform",
+            "in": "query",
+            "description": "Platform the data collector will run on. Allowed values:  Linux | Solaris | AIX | Windows",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "Linux",
+                "Solaris",
+                "AIX",
+                "Windows"
+              ]
+            }
+          },
+          {
+            "name": "ingressURL",
+            "in": "query",
+            "description": "IngressURL",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved data collector"
+          },
+          "400": {
+            "description": "Unable to get data collector"
+          },
+          "404": {
+            "description": "Data collector not found"
+          }
+        }
+      }
+    },
+    "/advisor/v2/workspaces/{workspaceId}/business-apps/{businessAppId}": {
+      "get": {
+        "tags": [
+          "business applications"
+        ],
+        "summary": "Get the business application",
+        "description": "Get the business application",
+        "operationId": "getBusinessApp",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ingressLibertyServerUrl",
+            "in": "header",
+            "description": "URL for the server ingress path",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "businessAppId",
+            "in": "path",
+            "description": "Id of the business application",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved business application"
+          },
+          "400": {
+            "description": "Unable to get business application"
+          },
+          "404": {
+            "description": "Business application not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "business applications"
+        ],
+        "summary": "Replace a business application",
+        "description": "Replace a business application",
+        "operationId": "updateBusinessApp",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "businessAppId",
+            "in": "path",
+            "description": "Id of the business application",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Business application record to be updated",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BusinessApp"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Business application successfully updated"
+          },
+          "400": {
+            "description": "Unable to update business application"
+          },
+          "404": {
+            "description": "Business application not found"
+          },
+          "409": {
+            "description": "Business application with this name already exists"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "business applications"
+        ],
+        "summary": "Delete a business application",
+        "description": "Delete a business application",
+        "operationId": "deleteBusinessApp",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ingressLibertyServerUrl",
+            "in": "header",
+            "description": "URL for the server ingress path",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "businessAppId",
+            "in": "path",
+            "description": "Id of the business application",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Business applications successfully deleted"
+          },
+          "400": {
+            "description": "Unable to delete business application"
+          },
+          "404": {
+            "description": "Business application not found"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "business applications"
+        ],
+        "summary": "Patch a business application",
+        "description": "Patch a application",
+        "operationId": "patchBusinessApp",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "businessAppId",
+            "in": "path",
+            "description": "Id of the business application",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Business application record to be patched",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BusinessApp"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Business application successfully patched."
+          },
+          "400": {
+            "description": "Unable to patch this Business application."
+          },
+          "404": {
+            "description": "Business application hierarchy not found"
+          },
+          "409": {
+            "description": "Business application with this name already exists."
+          }
+        }
+      }
+    },
+    "/advisor/v2/workspaces/{workspaceId}/collections": {
+      "get": {
+        "tags": [
+          "collections"
+        ],
+        "summary": "Get the list of collections",
+        "description": "Get the list of collections",
+        "operationId": "getCollections",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Collection name",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved collections"
+          },
+          "400": {
+            "description": "Unable to get collections"
+          },
+          "404": {
+            "description": "Collections not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "collections"
+        ],
+        "summary": "Create a collection",
+        "description": "Create a collection",
+        "operationId": "createCollection",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Collection to be created",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TACollection"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "New collection successfully created."
+          },
+          "400": {
+            "description": "Unable to create collection."
+          },
+          "404": {
+            "description": "Collection not found"
+          },
+          "409": {
+            "description": "Collection already exists."
+          }
+        }
+      }
+    },
+    "/advisor/v2/workspaces/{workspaceId}/assessmentUnits/{assessmentUnitId}/recommendationsExport": {
+      "get": {
+        "tags": [
+          "recommendations"
+        ],
+        "summary": "Get the link to the recommendations export",
+        "description": "Get the link to the recommendations export for this ssessment unit",
+        "operationId": "exportRecommendationsForAssessment",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ingressLibertyServerUrl",
+            "in": "header",
+            "description": "URL for the server ingress path",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "assessmentUnitId",
+            "in": "path",
+            "description": "The id of the assessmentUnit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "includeDetails",
+            "in": "query",
+            "description": "Boolean to include details or not",
+            "schema": {
+              "type": "boolean",
+              "default": "true"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved recommendations export"
+          },
+          "400": {
+            "description": "Unable to get recommendations export"
+          },
+          "404": {
+            "description": "Recommendations export not found"
+          }
+        }
+      }
+    },
+    "/advisor/v2/workspaces/{workspaceId}/collections/{collectionId}": {
+      "get": {
+        "tags": [
+          "collections"
+        ],
+        "summary": "Get the collection",
+        "description": "Get the collection",
+        "operationId": "getCollection",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "collectionId",
+            "in": "path",
+            "description": "Id of the collection",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved collection"
+          },
+          "400": {
+            "description": "Unable to get collection"
+          },
+          "404": {
+            "description": "Collection not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "collections"
+        ],
+        "summary": "Replace a collection",
+        "description": "Replace a collection",
+        "operationId": "updateCollection",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "collectionId",
+            "in": "path",
+            "description": "Id of the collection",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Collection to be created",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TACollection"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Collection successfully updated."
+          },
+          "400": {
+            "description": "Unable to update collection."
+          },
+          "404": {
+            "description": "Collection not found"
+          },
+          "409": {
+            "description": "Collection with this name already exists."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "collections"
+        ],
+        "summary": "Delete a collection",
+        "description": "Delete a collection",
+        "operationId": "deleteCollection",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "collectionId",
+            "in": "path",
+            "description": "Id of the collection",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Collection successfully deleted"
+          },
+          "400": {
+            "description": "Unable to delete collection"
+          },
+          "404": {
+            "description": "Collection not found"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "collections"
+        ],
+        "summary": "Patch a collection",
+        "description": "Patch a collection",
+        "operationId": "patchCollection",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "collectionId",
+            "in": "path",
+            "description": "Id of the collection",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Collection to be created",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TACollection"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Collection successfully patched."
+          },
+          "400": {
+            "description": "Unable to patch this collection."
+          },
+          "404": {
+            "description": "Collection hierarchy not found"
+          },
+          "409": {
+            "description": "Collection with this name already exists."
+          }
+        }
+      }
+    },
+    "/advisor/v2/workspaces/{workspaceId}": {
+      "get": {
+        "tags": [
+          "workspaces"
+        ],
+        "summary": "Get the workspace",
+        "description": "Get the workspace",
+        "operationId": "getWorkspace",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved workspace"
+          },
+          "400": {
+            "description": "Unable to get workspace"
+          },
+          "404": {
+            "description": "Workspace not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "workspaces"
+        ],
+        "summary": "Replace a workspace",
+        "description": "Replace a workspace",
+        "operationId": "updateWorkspace",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Workspace record to be replaced",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Workspace"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Workspace successfully replaced"
+          },
+          "400": {
+            "description": "Unable to update workspace"
+          },
+          "404": {
+            "description": "Workspace not found"
+          },
+          "409": {
+            "description": "Workspace with this name already exits"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "workspaces"
+        ],
+        "summary": "Delete a workspace",
+        "description": "Delete a workspace",
+        "operationId": "deleteWorkspace",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Workspace successfully deleted"
+          },
+          "400": {
+            "description": "Unable to delete workspace"
+          },
+          "404": {
+            "description": "Workspace not found"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "workspaces"
+        ],
+        "summary": "Patch a workspace",
+        "description": "Patch a workspace",
+        "operationId": "patchWorkspace",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Partial workspace record to be updated",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Workspace"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Workspace successfully patched"
+          },
+          "400": {
+            "description": "Unable to patch workspace"
+          },
+          "404": {
+            "description": "Workspace not found"
+          },
+          "409": {
+            "description": "Workspace with this name already exits"
+          }
+        }
+      }
+    },
+    "/advisor/v2/workspaces/{workspaceId}/reports": {
+      "get": {
+        "tags": [
+          "assessment units"
+        ],
+        "summary": "Get the recommendations reports",
+        "description": "Get the recommendations reports",
+        "operationId": "getRecommendationsReportsByRecName",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ingressLibertyServerUrl",
+            "in": "header",
+            "description": "URL for the server ingress path",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "assessmentUnitId",
+            "in": "path",
+            "description": "Id of the assessment unit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reportType",
+            "in": "query",
+            "description": "Type of report (technologyReport | inventoryReport | analysisReport)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "targetPlatform",
+            "in": "query",
+            "description": "Target platform (ICp_Liberty or WAS)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "description": "Format of the reports (html | json)",
+            "schema": {
+              "type": "string",
+              "default": "html"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved recommendations reports"
+          },
+          "400": {
+            "description": "Unable to get recommendations reports"
+          },
+          "404": {
+            "description": "Recommendations reports not found"
+          }
+        }
+      }
+    },
+    "/advisor/v2/workspaces/{workspaceId}/collections/{collectionId}/collectionArchives": {
+      "post": {
+        "tags": [
+          "collection archives"
+        ],
+        "summary": "Upload archives generated by the data collector",
+        "description": "Upload archives generated by the data collector",
+        "operationId": "createCollectionResult",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "archiveName",
+            "in": "header",
+            "description": "The name of the archive",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "uploadKey",
+            "in": "header",
+            "description": "The upload key for this collection",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "collectionId",
+            "in": "path",
+            "description": "Id of the collection",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "overwrite",
+            "in": "query",
+            "description": "Flag to indicate if existing data should be overwritten",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Collection archive to be uploaded",
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully created collection archive"
+          },
+          "400": {
+            "description": "Unable to create collection archive"
+          },
+          "404": {
+            "description": "Collection not found"
+          }
+        }
+      }
+    },
+    "/advisor/v2/workspaces": {
+      "get": {
+        "tags": [
+          "workspaces"
+        ],
+        "summary": "Get the list of workspaces",
+        "description": "Get the list of workspaces",
+        "operationId": "getWorkspaces",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Workspace name",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved workspaces"
+          },
+          "400": {
+            "description": "Unable to get workspaces"
+          },
+          "404": {
+            "description": "Workspaces not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "workspaces"
+        ],
+        "summary": "Create a workspace",
+        "description": "Create a workspace",
+        "operationId": "createWorkspace",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Workspace to be created",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Workspace"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "New workspace successfully created"
+          },
+          "400": {
+            "description": "Unable to create workspace"
+          },
+          "409": {
+            "description": "Workspace already exists"
+          }
+        }
+      }
+    },
+    "/advisor/v2/workspaces/{workspaceId}/assessmentUnits": {
+      "get": {
+        "tags": [
+          "assessment units"
+        ],
+        "summary": "Get the list of assessment units",
+        "description": "Get the list of assessment units",
+        "operationId": "getApplications",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "includeVirtual",
+            "in": "query",
+            "description": "Boolean to include virtual assessment units or not",
+            "schema": {
+              "type": "boolean",
+              "default": "false"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved assessment units"
+          },
+          "400": {
+            "description": "Unable to get assessment units"
+          },
+          "404": {
+            "description": "Assessment units not found"
+          }
+        }
+      }
+    },
+    "/advisor/v2/workspaces/{workspaceId}/collections/{collectionId}/recommendations": {
+      "get": {
+        "tags": [
+          "recommendations"
+        ],
+        "summary": "Get the list of recommendations",
+        "description": "Get the list of recommendations",
+        "operationId": "getRecommendationsForCollection",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ingressLibertyServerUrl",
+            "in": "header",
+            "description": "URL for the server ingress path",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "collectionId",
+            "in": "path",
+            "description": "Id of the collection",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deep",
+            "in": "query",
+            "description": "Includes all details in the recommendations if set to true",
+            "schema": {
+              "type": "boolean",
+              "default": "false"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved recommendations"
+          },
+          "400": {
+            "description": "Unable to get recommendations"
+          },
+          "404": {
+            "description": "Recommendations not found"
+          }
+        }
+      }
+    },
+    "/advisor/v2/workspaces/{workspaceId}/assessmentUnits/{assessmentUnitId}/reports": {
+      "get": {
+        "tags": [
+          "assessment units"
+        ],
+        "summary": "Get the recommendations reports",
+        "description": "Get the recommendations reports",
+        "operationId": "getRecommendationsReports",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ingressLibertyServerUrl",
+            "in": "header",
+            "description": "URL for the server ingress path",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "assessmentUnitId",
+            "in": "path",
+            "description": "Id of the assessment unit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reportType",
+            "in": "query",
+            "description": "Type of report (technologyReport | inventoryReport | analysisReport)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "targetPlatform",
+            "in": "query",
+            "description": "Target platform (ICp_Liberty or WAS)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "description": "Format of the reports (html | json)",
+            "schema": {
+              "type": "string",
+              "default": "html"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved recommendations reports"
+          },
+          "400": {
+            "description": "Unable to get recommendations reports"
+          },
+          "404": {
+            "description": "Recommendations reports not found"
+          }
+        }
+      }
+    },
+    "/advisor/v2/workspaces/{workspaceId}/recommendations": {
+      "get": {
+        "tags": [
+          "recommendations"
+        ],
+        "summary": "Get the list of recommendations",
+        "description": "Get the list of recommendations",
+        "operationId": "getRecommendations",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ingressLibertyServerUrl",
+            "in": "header",
+            "description": "URL for the server ingress path",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "collectionName",
+            "in": "query",
+            "description": "Collection name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deep",
+            "in": "query",
+            "description": "Includes all details in the recommendations if set to true",
+            "schema": {
+              "type": "boolean",
+              "default": "false"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved recommendations"
+          },
+          "400": {
+            "description": "Unable to get recommendations"
+          },
+          "404": {
+            "description": "Recommendations not found"
+          }
+        }
+      }
+    },
+    "/advisor/v2/workspaces/{workspaceId}/business-apps/{businessAppId}/recommendations": {
+      "get": {
+        "tags": [
+          "business applications"
+        ],
+        "summary": "Get the business application recommendations",
+        "description": "Get the business application recommendations",
+        "operationId": "getBusinessAppSummary",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ingressLibertyServerUrl",
+            "in": "header",
+            "description": "URL for the server ingress path",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "businessAppId",
+            "in": "path",
+            "description": "Id of the business application",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved business application recommendations"
+          },
+          "400": {
+            "description": "Unable to get business application recommendations"
+          },
+          "404": {
+            "description": "Business application not found"
+          }
+        }
+      }
+    },
+    "/advisor/v2/workspaces/{workspaceId}/hierarchy": {
+      "get": {
+        "tags": [
+          "workspaces"
+        ],
+        "summary": "Get the hierarchy of workspaces, collections and archive names",
+        "description": "Get the hierarchy of workspaces, collections and archive names",
+        "operationId": "getWorkspaceHierarchy",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "collectionName",
+            "in": "query",
+            "description": "Collection name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "archiveName",
+            "in": "query",
+            "description": "Archive name",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved hierarchy"
+          },
+          "400": {
+            "description": "Unable to get hierarchy"
+          },
+          "404": {
+            "description": "Hierarchy not found"
+          }
+        }
+      }
+    },
+    "/advisor/v2/workspaces/{workspaceId}/recommendationsExport": {
+      "get": {
+        "tags": [
+          "recommendations"
+        ],
+        "summary": "Get the links to the recommendations export",
+        "description": "Get the link to the recommendations export for a collection or profile",
+        "operationId": "exportRecommendations",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ingressLibertyServerUrl",
+            "in": "header",
+            "description": "URL for the server ingress path",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "includeDetails",
+            "in": "query",
+            "description": "Boolean to include details or not",
+            "schema": {
+              "type": "boolean",
+              "default": "true"
+            }
+          },
+          {
+            "name": "collectionName",
+            "in": "query",
+            "description": "Collection name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "archiveName",
+            "in": "query",
+            "description": "Archive name",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved recommendations export"
+          },
+          "400": {
+            "description": "Unable to get recommendations export"
+          },
+          "404": {
+            "description": "Recommendations export not found"
+          }
+        }
+      }
+    },
+    "/advisor/v2/repository": {
+      "post": {
+        "tags": [
+          "repository"
+        ],
+        "summary": "Push migration artifacts to a repository",
+        "description": "Push migration artifacts to a repository",
+        "operationId": "createRepository",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Repository to push migration artifacts to",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GitRepository"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully pushed migration artifacts to this repository"
+          },
+          "400": {
+            "description": "Unable to push migration artifacts to this repository"
+          }
+        }
+      }
+    },
+    "/advisor/v2/workspaces/{workspaceId}/assessmentUnits/{assessmentUnitId}/migrationArtifacts": {
+      "get": {
+        "tags": [
+          "assessment units"
+        ],
+        "summary": "Get the links to the migration artifacts for this assessment unit",
+        "description": "Get the links to the migration artifacts for this assessment unit",
+        "operationId": "getMigrationArtifact",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "path",
+            "description": "Id of the workspace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "assessmentUnitId",
+            "in": "path",
+            "description": "Id of the assessment unit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "artifactName",
+            "in": "query",
+            "description": "Name of the artifact",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "useMavenRepo",
+            "in": "query",
+            "description": "Boolean flag to indicate if binaries will be used from an external Maven repository",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved migration artifacts"
+          },
+          "400": {
+            "description": "Unable to get migration artifacts"
+          },
+          "404": {
+            "description": "Migration artifacts not found"
+          }
+        }
+      }
+    },
+    "/advisor/v2/hierarchy": {
+      "get": {
+        "tags": [
+          "hierarchy"
+        ],
+        "summary": "Get the hierarchy of workspaces, collections and archive names",
+        "description": "Get the hierarchy of workspaces, collections and archive names",
+        "operationId": "getHierarchy",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Access token or API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "description": "API key",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceName",
+            "in": "query",
+            "description": "Workspace name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "collectionName",
+            "in": "query",
+            "description": "Collection name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "archiveName",
+            "in": "query",
+            "description": "Archive name",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved hierarchy"
+          },
+          "400": {
+            "description": "Unable to get hierarchy"
+          },
+          "404": {
+            "description": "Hierarchy not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "JsonArray": {
+        "type": "object",
+        "properties": {
+          "asNumber": {
+            "$ref": "#/components/schemas/Number"
+          },
+          "asString": {
+            "type": "string"
+          },
+          "asDouble": {
+            "type": "number",
+            "format": "double"
+          },
+          "asBigDecimal": {
+            "type": "number"
+          },
+          "asBigInteger": {
+            "type": "integer"
+          },
+          "asFloat": {
+            "type": "number",
+            "format": "float"
+          },
+          "asLong": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "asInt": {
+            "type": "integer"
+          },
+          "asByte": {
+            "type": "string",
+            "format": "base64"
+          },
+          "asCharacter": {
+            "type": "string"
+          },
+          "asShort": {
+            "type": "integer"
+          },
+          "asBoolean": {
+            "type": "boolean"
+          },
+          "jsonArray": {
+            "type": "boolean"
+          },
+          "jsonObject": {
+            "type": "boolean"
+          },
+          "jsonPrimitive": {
+            "type": "boolean"
+          },
+          "jsonNull": {
+            "type": "boolean"
+          },
+          "asJsonObject": {
+            "$ref": "#/components/schemas/JsonObject"
+          },
+          "asJsonArray": {
+            "$ref": "#/components/schemas/JsonArray"
+          },
+          "asJsonPrimitive": {
+            "$ref": "#/components/schemas/JsonPrimitive"
+          },
+          "asJsonNull": {
+            "$ref": "#/components/schemas/JsonNull"
+          }
+        }
+      },
+      "BusinessApp": {
+        "minProperties": 1,
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "lastAccessed": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1558945418532
+          },
+          "created": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1558945418532
+          },
+          "name": {
+            "type": "string",
+            "example": "newBusinessApp",
+            "default": "businessApp_updated"
+          },
+          "components": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BusinessAppComponent"
+            }
+          }
+        }
+      },
+      "GitRepository": {
+        "minProperties": 6,
+        "required": [
+          "appName",
+          "archiveName",
+          "collection",
+          "credentials",
+          "repo",
+          "workspace"
+        ],
+        "type": "object",
+        "properties": {
+          "workspace": {
+            "type": "string"
+          },
+          "collection": {
+            "type": "string"
+          },
+          "archiveName": {
+            "type": "string"
+          },
+          "appName": {
+            "type": "string"
+          },
+          "credentials": {
+            "$ref": "#/components/schemas/GitCredentials"
+          },
+          "repo": {
+            "type": "string"
+          },
+          "overwrite": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Number": {
+        "type": "object"
+      },
+      "JsonPrimitive": {
+        "type": "object",
+        "properties": {
+          "boolean": {
+            "type": "boolean"
+          },
+          "asBoolean": {
+            "type": "boolean"
+          },
+          "number": {
+            "type": "boolean"
+          },
+          "asNumber": {
+            "$ref": "#/components/schemas/Number"
+          },
+          "string": {
+            "type": "boolean"
+          },
+          "asString": {
+            "type": "string"
+          },
+          "asDouble": {
+            "type": "number",
+            "format": "double"
+          },
+          "asBigDecimal": {
+            "type": "number"
+          },
+          "asBigInteger": {
+            "type": "integer"
+          },
+          "asFloat": {
+            "type": "number",
+            "format": "float"
+          },
+          "asLong": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "asShort": {
+            "type": "integer"
+          },
+          "asInt": {
+            "type": "integer"
+          },
+          "asByte": {
+            "type": "string",
+            "format": "base64"
+          },
+          "asCharacter": {
+            "type": "string"
+          },
+          "jsonArray": {
+            "type": "boolean"
+          },
+          "jsonObject": {
+            "type": "boolean"
+          },
+          "jsonPrimitive": {
+            "type": "boolean"
+          },
+          "jsonNull": {
+            "type": "boolean"
+          },
+          "asJsonObject": {
+            "$ref": "#/components/schemas/JsonObject"
+          },
+          "asJsonArray": {
+            "$ref": "#/components/schemas/JsonArray"
+          },
+          "asJsonPrimitive": {
+            "$ref": "#/components/schemas/JsonPrimitive"
+          },
+          "asJsonNull": {
+            "$ref": "#/components/schemas/JsonNull"
+          }
+        }
+      },
+      "InputStream": {
+        "type": "object"
+      },
+      "BusinessAppComponent": {
+        "type": "object",
+        "properties": {
+          "assessmentUnitId": {
+            "type": "string"
+          },
+          "deploymentTarget": {
+            "type": "string",
+            "example": "LIBERTY_PRIVATE",
+            "default": "LIBERTY_PRIVATE",
+            "enum": [
+              "LIBERTY_PRIVATE",
+              "WAS_PUBLIC",
+              "WAS_PRIVATE",
+              "LIBERTY_PUBLIC"
+            ]
+          }
+        }
+      },
+      "TACollection": {
+        "minProperties": 1,
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "collection1"
+          }
+        }
+      },
+      "GitCredentials": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "JsonObject": {
+        "type": "object",
+        "properties": {
+          "jsonArray": {
+            "type": "boolean"
+          },
+          "jsonObject": {
+            "type": "boolean"
+          },
+          "jsonPrimitive": {
+            "type": "boolean"
+          },
+          "jsonNull": {
+            "type": "boolean"
+          },
+          "asJsonObject": {
+            "$ref": "#/components/schemas/JsonObject"
+          },
+          "asJsonArray": {
+            "$ref": "#/components/schemas/JsonArray"
+          },
+          "asJsonPrimitive": {
+            "$ref": "#/components/schemas/JsonPrimitive"
+          },
+          "asJsonNull": {
+            "$ref": "#/components/schemas/JsonNull"
+          },
+          "asBoolean": {
+            "type": "boolean"
+          },
+          "asNumber": {
+            "$ref": "#/components/schemas/Number"
+          },
+          "asString": {
+            "type": "string"
+          },
+          "asDouble": {
+            "type": "number",
+            "format": "double"
+          },
+          "asFloat": {
+            "type": "number",
+            "format": "float"
+          },
+          "asLong": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "asInt": {
+            "type": "integer"
+          },
+          "asByte": {
+            "type": "string",
+            "format": "base64"
+          },
+          "asCharacter": {
+            "type": "string"
+          },
+          "asBigDecimal": {
+            "type": "number"
+          },
+          "asBigInteger": {
+            "type": "integer"
+          },
+          "asShort": {
+            "type": "integer"
+          }
+        }
+      },
+      "Workspace": {
+        "minProperties": 1,
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "workspace1"
+          },
+          "lastAccessed": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1558945418532
+          }
+        }
+      },
+      "JsonNull": {
+        "type": "object",
+        "properties": {
+          "jsonArray": {
+            "type": "boolean"
+          },
+          "jsonObject": {
+            "type": "boolean"
+          },
+          "jsonPrimitive": {
+            "type": "boolean"
+          },
+          "jsonNull": {
+            "type": "boolean"
+          },
+          "asJsonObject": {
+            "$ref": "#/components/schemas/JsonObject"
+          },
+          "asJsonArray": {
+            "$ref": "#/components/schemas/JsonArray"
+          },
+          "asJsonPrimitive": {
+            "$ref": "#/components/schemas/JsonPrimitive"
+          },
+          "asJsonNull": {
+            "$ref": "#/components/schemas/JsonNull"
+          },
+          "asBoolean": {
+            "type": "boolean"
+          },
+          "asNumber": {
+            "$ref": "#/components/schemas/Number"
+          },
+          "asString": {
+            "type": "string"
+          },
+          "asDouble": {
+            "type": "number",
+            "format": "double"
+          },
+          "asFloat": {
+            "type": "number",
+            "format": "float"
+          },
+          "asLong": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "asInt": {
+            "type": "integer"
+          },
+          "asByte": {
+            "type": "string",
+            "format": "base64"
+          },
+          "asCharacter": {
+            "type": "string"
+          },
+          "asBigDecimal": {
+            "type": "number"
+          },
+          "asBigInteger": {
+            "type": "integer"
+          },
+          "asShort": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "description": "API key",
+        "name": "apiKey",
+        "in": "header"
+      },
+      "bearerAuth": {
+        "type": "http",
+        "description": "Access token",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
